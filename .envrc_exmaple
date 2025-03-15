@@ -1,0 +1,6 @@
+export ADDR=":8080"
+export ENV="development"
+export DB_ADDR=postgres://admin:adminpassword@localhost:5432/manga?sslmode=disable
+export DB_MAX_OPEN_CONNS=30
+export DB_MAX_IDLE_CONNS=30
+export DB_MAX_IDLE_TIME=15m
