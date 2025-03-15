@@ -15,9 +15,9 @@ type mangakey string
 const mangaCtx mangakey = "manga"
 
 type CreateMangaPayload struct {
-	Title       string   `json:"title"`
-	Description string   `json:"description"`
-	Slug        string   `json:"slug"`
+	Title       string   `json:"title" validate:"required,min=6,max=100"`
+	Description string   `json:"description" validate:"required,max=3000"`
+	Slug        string   `json:"slug" validate:"required,max=255"`
 	Cover       string   `json:"cover"`
 	Tags        []string `json:"tags"`
 }
@@ -34,6 +34,11 @@ func (app *application) getMangaHandler(w http.ResponseWriter, r *http.Request) 
 func (app *application) createMangaHandler(w http.ResponseWriter, r *http.Request) {
 	var payload CreateMangaPayload
 	if err := readJSON(w, r, &payload); err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	if err := Validate.Struct(payload); err != nil {
 		app.badRequest(w, r, err)
 		return
 	}

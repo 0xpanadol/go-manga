@@ -31,15 +31,20 @@ func (app *application) getChapterHandler(w http.ResponseWriter, r *http.Request
 }
 
 type CreateChapterPayload struct {
-	Title   string   `json:"title"`
-	Content []string `json:"content"`
-	Number  float64  `json:"chapter_number"`
+	Title   string   `json:"title" validate:"required,max=255"`
+	Content []string `json:"content" validate:"required"`
+	Number  float64  `json:"chapter_number" validate:"required"`
 }
 
 func (app *application) createChapterHandler(w http.ResponseWriter, r *http.Request) {
 	var payload CreateChapterPayload
 	if err := readJSON(w, r, &payload); err != nil {
 		app.internalServerError(w, r, err)
+		return
+	}
+
+	if err := Validate.Struct(payload); err != nil {
+		app.badRequest(w, r, err)
 		return
 	}
 
