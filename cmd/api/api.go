@@ -42,9 +42,21 @@ func (app *application) mount() http.Handler {
 
 		r.Route("/manga", func(r chi.Router) {
 			r.Post("/", app.createMangaHandler)
+
+			// Mangas
 			r.Route("/{mangaID}", func(r chi.Router) {
 				r.Use(app.mangaContextMiddleware)
 				r.Get("/", app.getMangaHandler)
+
+				// Chapters GET, POST, PATCH, DELETE
+				r.Route("/chapters", func(r chi.Router) {
+					r.Get("/", app.getChapterHandler)
+					r.Post("/", app.createChapterHandler)
+
+					r.Route("/{chapterID}", func(r chi.Router) {
+						r.Delete("/", app.deleteChapterHandler)
+					})
+				})
 			})
 		})
 	})

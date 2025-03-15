@@ -25,7 +25,7 @@ type CreateMangaPayload struct {
 func (app *application) getMangaHandler(w http.ResponseWriter, r *http.Request) {
 	manga := getMangaFromCtx(r.Context())
 
-	if err := writeJSON(w, http.StatusOK, manga); err != nil {
+	if err := app.jsonResponse(w, http.StatusOK, manga); err != nil {
 		app.internalServerError(w, r, err)
 		return
 	}
@@ -56,7 +56,7 @@ func (app *application) createMangaHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	if err := writeJSON(w, http.StatusOK, manga); err != nil {
+	if err := app.jsonResponse(w, http.StatusOK, manga); err != nil {
 		app.internalServerError(w, r, err)
 		return
 	}

@@ -58,6 +58,7 @@ func (s *MangaStore) Create(ctx context.Context, manga *Manga) error {
 func (s *MangaStore) GetByID(ctx context.Context, mangaID int64) (*Manga, error) {
 	query := `
 	SELECT
+		id,
 		title,
 		description,
 		slug,
@@ -78,6 +79,7 @@ func (s *MangaStore) GetByID(ctx context.Context, mangaID int64) (*Manga, error)
 
 	var manga Manga
 	err := s.db.QueryRowContext(ctx, query, mangaID).Scan(
+		&manga.ID,
 		&manga.Title,
 		&manga.Description,
 		&manga.Slug,
