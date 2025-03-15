@@ -43,7 +43,8 @@ func (app *application) mount() http.Handler {
 		r.Route("/manga", func(r chi.Router) {
 			r.Post("/", app.createMangaHandler)
 			r.Route("/{mangaID}", func(r chi.Router) {
-				//
+				r.Use(app.mangaContextMiddleware)
+				r.Get("/", app.getMangaHandler)
 			})
 		})
 	})
