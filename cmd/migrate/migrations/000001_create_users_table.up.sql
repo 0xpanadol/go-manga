@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
   id BIGSERIAL PRIMARY KEY,
   username CITEXT NOT NULL,
   email CITEXT NOT NULL,
-  password_hash BYTEA NOT NULL,
+  password BYTEA NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   CONSTRAINT unique_username UNIQUE (username),
