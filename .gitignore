@@ -3,3 +3,4 @@ important.txt
 bin/
 .vscode/
 api-test/
+.air.toml
