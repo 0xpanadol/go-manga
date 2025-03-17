@@ -25,6 +25,14 @@ type CreateMangaPayload struct {
 func (app *application) getMangaHandler(w http.ResponseWriter, r *http.Request) {
 	manga := getMangaFromCtx(r.Context())
 
+	comments, err := app.store.Comments.GetByMangaID(r.Context(), manga.ID)
+	if err != nil {
+		app.internalServerError(w, r, err)
+		return
+	}
+
+	manga.Comments = *comments
+
 	if err := app.jsonResponse(w, http.StatusOK, manga); err != nil {
 		app.internalServerError(w, r, err)
 		return

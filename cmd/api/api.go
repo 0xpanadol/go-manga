@@ -57,6 +57,11 @@ func (app *application) mount() http.Handler {
 						r.Delete("/", app.deleteChapterHandler)
 					})
 				})
+
+				// Comments
+				r.Route("/comments", func(r chi.Router) {
+					r.Post("/", app.createCommentHandler)
+				})
 			})
 		})
 	})

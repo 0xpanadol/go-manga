@@ -22,11 +22,16 @@ type Storage struct {
 		GetByMangaID(context.Context, int64) (*[]Chapter, error)
 		Delete(context.Context, int64, int64) error
 	}
+	Comments interface {
+		Create(context.Context, *Comment) error
+		GetByMangaID(context.Context, int64) (*[]Comment, error)
+	}
 }
 
 func NewStorage(db *sql.DB) Storage {
 	return Storage{
 		Mangas:   &MangaStore{db},
 		Chapters: &ChapterStore{db},
+		Comments: &CommentStore{db},
 	}
 }
